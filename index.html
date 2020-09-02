@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleProductChange('phone',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phone-AddCount" type="text" class="form-control text-center" value="1">
+                           <button onclick="handleProductChange('phone',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="phonePrice">1219</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleProductChange('case',false);" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="case-AddCount" type="text" class="form-control text-center" value="1">
+                           <button onclick="handleProductChange('case',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="casePrice">59</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$<span id="subTotal">00</span> </h5>
+                        <h5>$ <span id="taxAmount">0</span> </h5>
+                        <h5>$ <span id="GrandTotal">00</span> </h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+
+function handleProductChange(product,isIncrease) {
+         var productInput = document.getElementById(product+"-AddCount").value;
+         var productNewInput = parseInt(productInput);
+         // var caseTotalInput = caseNewInput - 1;
+         let productTotalInput = productNewInput;
+         if (isIncrease == false && productNewInput > 0) {
+            productTotalInput = productNewInput - 1;
+         } if(isIncrease == true) {
+            productTotalInput = productNewInput + 1;
+         }
+         document.getElementById(product+"-AddCount").value = productTotalInput;
+         // var productPrice = productTotalInput * 59;
+         let productPrice = 0;
+         if (product == "phone") {
+            productPrice = productTotalInput * 1219;
+         }else{
+            productPrice = productTotalInput * 59;
+         }
+         document.getElementById(product+"Price").innerText = productPrice;
+         totalPrice();
+      }
+
+      // ***--------SubTotal-----****
+
+      function totalPrice() {
+         let phoneInput = document.getElementById("phone-AddCount").value;
+         let phoneCount = parseFloat(phoneInput);
+
+         let caseInput = document.getElementById("case-AddCount").value;
+         let caseCount = parseFloat(caseInput);
+
+         let totalPrice = phoneCount * 1219 + caseCount * 59;
+         document.getElementById("subTotal").innerText = totalPrice;
+
+         let taxAmount = Math.round(totalPrice * 0.1);
+         document.getElementById("taxAmount").innerText = taxAmount;
+
+         let grandTotal = taxAmount + totalPrice;
+         document.getElementById("GrandTotal").innerText = grandTotal;
+       }
+
+
+
+      // ****---------*****Phone Case*****---------****** 
+      // function handleProductChange(isIncrease) {
+      //    var caseInput = document.getElementById("case-AddCount").value;
+      //    var caseNewInput = parseInt(caseInput);
+      //    // var caseTotalInput = caseNewInput - 1;
+      //    let caseTotalInput = caseNewInput;
+      //    if (isIncrease == false && caseNewInput > 0) {
+      //       caseTotalInput = caseNewInput - 1;
+      //    } if(isIncrease == true) {
+      //       caseTotalInput = caseNewInput + 1;
+      //    }
+      //    document.getElementById("case-AddCount").value = caseTotalInput;
+      //    var casePrice = caseTotalInput * 59;
+      //    document.getElementById("casePrice").innerText = casePrice;
+      // }
+
+//   ****------------******Handle Phone Change****---------*****
+// function handlePhoneChange(isIncrease) {
+//          var phoneInput = document.getElementById("phone-AddCount").value;
+//          var phoneNewInput = parseInt(phoneInput);
+//          // var caseTotalInput = caseNewInput - 1;
+//          let phoneTotalInput = phoneNewInput;
+//          if (isIncrease == false && phoneNewInput > 0) {
+//             phoneTotalInput = phoneNewInput - 1;
+//          } if(isIncrease == true) {
+//             phoneTotalInput = phoneNewInput + 1;
+//          }
+//          document.getElementById("phone-AddCount").value = phoneTotalInput;
+//          var phonePrice = phoneTotalInput * 1219;
+//          document.getElementById("phonePrice").innerText = phonePrice;
+//       }
+
+   </script>
+</body>
+
+</html>
